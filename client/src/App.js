@@ -19,7 +19,7 @@ export function App({ code, dispatchChangeCode }) {
 
 
   const redirect_uri = 'http://localhost:1234/callback'
-  const scope = 'streaming%20playlist-read-private%20user-top-read%20user-read-private%20user-read-email%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state';
+  const scope = 'streaming%20user-follow-read%20playlist-read-private%20user-top-read%20user-read-private%20user-read-email%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state%20user-read-recently-played';
   const responseType = "code"
 
   const authorizeUrl = `https://accounts.spotify.com/authorize?client_id=${client_id}&response_type=${responseType}&redirect_uri=${redirect_uri}&scope=${scope}`
@@ -29,23 +29,25 @@ export function App({ code, dispatchChangeCode }) {
       {
         !code && (
           <Container className="d-flex align-items-center justify-content-center" style={{ height: "100vh" }}>
-            <Button href={authorizeUrl}>hi</Button>
+            <Button href={authorizeUrl}>Log in with Spotify</Button>
           </Container>
         )
       }
       {
         code && (
           <>
-            <Routes>
-              <Route path="/" element={<div>hello</div>}></Route>
-              <Route path="/callback" element={<Loading></Loading>}></Route>
-              <Route path="/dashboard" element={<Main></Main>}></Route>
-              <Route path="*" element={<div>hello3</div>}></Route>
-            </Routes>
-            <div>
-              {/* {code} */}
+            <div style={{ backgroundColor: "#F6F7F9" }}>
+              <Routes>
+                <Route path="/" element={<div>hello</div>}></Route>
+                <Route path="/callback" element={<Loading></Loading>}></Route>
+                <Route path="/dashboard" element={<Main></Main>}></Route>
+                <Route path="*" element={<div>hello3</div>}></Route>
+              </Routes>
+              <div>
+                {/* {code} */}
+              </div>
+              {/* <Link to="/hello">hi</Link> */}
             </div>
-            {/* <Link to="/hello">hi</Link> */}
           </>
         )
       }

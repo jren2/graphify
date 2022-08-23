@@ -13,8 +13,8 @@ const QuickPlayer = ({ accessToken }) => {
           accessToken: accessToken
         }
       }).then(response => {
-        console.log('USER PLAYLISTS')
-        console.log(response.data)
+        // console.log('USER PLAYLISTS')
+        // console.log(response.data)
         setPlaylists(response.data.items)
       }).catch(err => {
         console.log(err)

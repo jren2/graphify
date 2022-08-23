@@ -37,8 +37,8 @@ app.use(express.json())
 app.use(express.static('dist'))
 
 app.post('/login'), (req, res) => {
-  console.log('hello')
-  res.send('hi')
+  // console.log('hello')
+  // res.send('hi')
   // const code = req.body.code
   // const spotifyApi = new SpotifyWebApi({
   //   redirectUri: 'http://localhost:3001',
@@ -59,9 +59,6 @@ app.post('/login'), (req, res) => {
 
 app.get('/api/getUserInfo', (req, res) => {
   const access_token = req.query.accessToken
-  // console.log('Request ')
-  // console.log(req)
-  // console.log('access token:' + access_token)
   axios.get('https://api.spotify.com/v1/me/', {
     headers: {
       'Authorization': 'Bearer ' + access_token
@@ -78,16 +75,73 @@ app.get('/api/getTop/:item', async (req, res) => {
   const { item } = params
   const access_token = req.query.accessToken
 
-  console.log("ACCESS TOKEN FROM TOP")
-  console.log(access_token)
-  console.log("ITEM FROM TOP")
-  console.log(item)
-
   axios.get(`https://api.spotify.com/v1/me/top/${item}?limit=10&time_range=short_term`, {
     headers: {
       'Authorization': 'Bearer ' + access_token
     },
   }).then(response => {
+    res.send(response.data)
+  }).catch(error => {
+    res.send(error)
+  })
+})
+
+app.get('/api/getRelatedArtists/:id', async (req, res) => {
+  const { params } = req
+  const { id } = params
+  const access_token = req.query.accessToken
+
+  axios.get(`https://api.spotify.com/v1/artists/${id}/related-artists`, {
+    headers: {
+      'Authorization': 'Bearer ' + access_token
+    },
+  }).then(response => {
+    res.send(response.data)
+  }).catch(error => {
+    res.send(error)
+  })
+})
+
+app.get('/api/getRecent', async (req, res) => {
+  const { params } = req
+  const { id } = params
+  const access_token = req.query.accessToken
+
+  axios.get('	https://api.spotify.com/v1/me/player/recently-played?limit=6', {
+    headers: {
+      'Authorization': 'Bearer ' + access_token
+    }
+  }).then(response => {
+    res.send(response.data)
+  }).catch(error => {
+    res.send(error)
+  })
+})
+
+app.get('/api/getNew', async (req, res) => {
+  const { params } = req
+  const { id } = params
+  const access_token = req.query.accessToken
+
+  axios.get('https://api.spotify.com/v1/browse/new-releases?country=NA', {
+    headers: {
+      'Authorization': 'Bearer ' + access_token
+    }
+  }).then(response => {
+    res.send(response.data)
+  }).catch(error => {
+    res.send(error)
+  })
+})
+
+app.get('/api/getUserFollowing', (req, res) => {
+  const access_token = req.query.accessToken
+  axios.get('https://api.spotify.com/v1/me/following?type=artist', {
+    headers: {
+      'Authorization': 'Bearer ' + access_token
+    },
+  }).then(response => {
+    // console.log(response.data)
     res.send(response.data)
   }).catch(error => {
     res.send(error)
@@ -102,8 +156,6 @@ app.get('/api/getUserPlaylists', async (req, res) => {
       'Authorization': 'Bearer ' + access_token
     },
   }).then(response => {
-    console.log('USER PLAYLISTS')
-    console.log(response.data)
     res.send(response.data)
   }).catch(err => {
     res.send(err)
@@ -112,9 +164,6 @@ app.get('/api/getUserPlaylists', async (req, res) => {
 
 app.get('/callback', function (req, res) {
   const code = req.query.code || null;
-  // console.log(req.query.code)
-  // console.log(code)
-  // console.log('hello')
 
   const spotifyApi = new SpotifyWebApi({
     redirectUri: 'http://localhost:1234/callback',

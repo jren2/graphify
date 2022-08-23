@@ -9,7 +9,7 @@ const Loading = ({ code, dispatchChangeAccessToken, dispatchChangeExpires, dispa
   const [found, setFound] = useState(false)
 
   useEffect(() => {
-    console.log('code: ' + code)
+    // console.log('code: ' + code)
     axios.get('http://localhost:3001/callback', {
       params: {
         code
@@ -23,8 +23,8 @@ const Loading = ({ code, dispatchChangeAccessToken, dispatchChangeExpires, dispa
       dispatchChangeExpires(expiresIn)
       dispatchChangeRefreshToken(refreshToken)
 
-      console.log('Response')
-      console.log({ accessToken, refreshToken, expiresIn })
+      // console.log('Response')
+      // console.log({ accessToken, refreshToken, expiresIn })
       // Cookies.set('validated', 'true', { expires: 1 })
       setFound(true)
     }).catch(err => {

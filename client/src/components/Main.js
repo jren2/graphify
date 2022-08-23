@@ -5,26 +5,41 @@ import { changeAccessToken, changeExpires, changeRefreshToken } from "../actions
 import Player from './Player'
 import Sidebar from './Sidebar'
 import RightBar from "./RightBar"
+import Topbar from './Topbar'
+import Dashboard from './Dashboard'
 import { Container, Row, Col, Dropdown, Button, ButtonGroup, DropdownButton, MenuItem } from "react-bootstrap"
 
 
 const Main = ({ code, accessToken, refreshToken, expiresIn, dispatchChangeAccessToken, dispatchChangeExpires, dispatchChangeRefreshToken }) => {
   const [userInfo, setUserInfo] = useState({})
   const [image, setImage] = useState()
+  const [topArtists, setTopArtists] = useState()
 
   useEffect(() => {
-    console.log("Access token from Main")
-    console.log(accessToken)
+    // console.log("Access token from Main")
+    // console.log(accessToken)
     if (accessToken) {
       axios.get('http://localhost:3001/api/getUserInfo', {
         params: {
           accessToken: accessToken
         }
       }).then(response => {
-        console.log('USER INFO')
-        console.log(response.data)
+        // console.log('USER INFO')
+        // console.log(response.data)
         setImage(response.data.images[0].url)
         setUserInfo(response.data)
+      }).catch(err => {
+        console.log(err)
+      })
+
+      axios.get('http://localhost:3001/api/getTop/artists', {
+        params: {
+          accessToken: accessToken
+        }
+      }).then(response => {
+        // console.log('USER TOP')
+        // console.log(response.data.items)
+        setTopArtists(response.data.items)
       }).catch(err => {
         console.log(err)
       })
@@ -33,51 +48,22 @@ const Main = ({ code, accessToken, refreshToken, expiresIn, dispatchChangeAccess
 
   return (
     <>
-      <Container fluid>
-        <Row>
+      <Container fluid >
+        <Row style={{ height: "93vh" }} >
           <Col xs={2} className="border border-info">
             <Sidebar access_token={accessToken}></Sidebar>
           </Col>
           <Col xs={10}>
-            <Row className="text-center items-center border border-dark">
-              <p className="my-auto p-2">Search Bar</p>
-
-              <div className="my-auto ml-auto mr-3">
-                <Dropdown style={{ outline: "none" }}>
-                  <Dropdown.Toggle variant="light" style={{ borderRadius: "35px" }}>
-                    <div className="d-inline-flex">
-                      <div className="px-1 my-auto">{userInfo.display_name}</div>
-                      <img src={image} className="rounded-circle" width="40px"></img>
-                    </div>
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu variant="light">
-                    <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">Settings</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item href="#/action-3">Log Out</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </div>
-            </Row>
+            <Topbar userInfo={userInfo} image={image}></Topbar>
             <Row>
-              <Col xs={9} className="border border-success">
-                <p>Welcome to main!</p>
-                <p>Your access token:</p>
-                <p className="text-break">{accessToken}</p>
-                <br></br>
-                <div>Your refresh token</div>
-                <div className="text-break">{refreshToken}</div>
-                <br></br>
-                <div>Your access expires in:</div>
-                <div>{expiresIn}</div>
-                <br></br>
-                <div>User Info</div>
-                <div>{userInfo.display_name}</div>
-                <img src={image}></img>
-                <br></br>
+              <Col xs={9} className="border border-success" style={{ padding: "0px" }}>
+                {topArtists &&
+                  (
+                    <Dashboard image={image} access_token={accessToken} refresh_token={refreshToken} expires_in={expiresIn} user_info={userInfo} top_artists={topArtists}></Dashboard>
+                  )
+                }
               </Col>
-              <Col xs={3} className="border border-danger p-0">
+              <Col xs={3} className="my-auto border border-danger p-0">
                 <RightBar></RightBar>
               </Col>
             </Row>
