@@ -12,10 +12,14 @@ import Cookies from 'js-cookie'
 
 
 export function App({ code, dispatchChangeCode }) {
+  const [logged, setLogged] = useState(false)
+
   useEffect(() => {
     const newCode = new URLSearchParams(window.location.search).get('code')
     dispatchChangeCode(newCode)
-  }, [])
+    console.log(sessionStorage.getItem('code'))
+    setLogged(!(sessionStorage.getItem('code') === null))
+  })
 
 
   const redirect_uri = 'http://localhost:1234/callback'
@@ -27,14 +31,14 @@ export function App({ code, dispatchChangeCode }) {
   return (
     <div className='app'>
       {
-        !code && (
+        (!code && !logged) && (
           <Container className="d-flex align-items-center justify-content-center" style={{ height: "100vh" }}>
             <Button href={authorizeUrl}>Log in with Spotify</Button>
           </Container>
         )
       }
       {
-        code && (
+        (code || logged) && (
           <>
             <div style={{ backgroundColor: "#F6F7F9" }}>
               <Routes>

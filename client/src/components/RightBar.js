@@ -4,7 +4,8 @@ import axios from 'axios'
 import { Container, Row, Col, Image } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
-const RightBar = ({ accessToken }) => {
+const RightBar = () => {
+  const accessToken = sessionStorage.getItem('code')
   const [topArtists, setTopArtists] = useState()
   const [topSongs, setTopSongs] = useState()
   const [followingArtists, setFollowingArtists] = useState()
@@ -17,8 +18,6 @@ const RightBar = ({ accessToken }) => {
             accessToken: accessToken
           }
         }).then(response => {
-          // console.log('USER TOP')
-          // console.log(response.data.items)
           setTopArtists(response.data.items)
         }).catch(err => {
           console.log(err)
@@ -29,8 +28,6 @@ const RightBar = ({ accessToken }) => {
             accessToken: accessToken
           }
         }).then(response => {
-          // console.log('USER TOP')
-          // console.log(response.data.items)
           setTopSongs(response.data.items)
         }).catch(err => {
           console.log(err)
@@ -41,8 +38,6 @@ const RightBar = ({ accessToken }) => {
             accessToken: accessToken
           }
         }).then(response => {
-          // console.log("USER FOLLOWING")
-          // console.log(response.data)
           setFollowingArtists(response.data)
         }).catch(err => {
           console.log('USER FOLLOWING ERROR')

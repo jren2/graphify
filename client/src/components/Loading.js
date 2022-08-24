@@ -3,13 +3,11 @@ import { useEffect, useState } from "react"
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { changeAccessToken, changeExpires, changeRefreshToken } from "../actions"
-import Cookies from 'js-cookie'
 
 const Loading = ({ code, dispatchChangeAccessToken, dispatchChangeExpires, dispatchChangeRefreshToken }) => {
   const [found, setFound] = useState(false)
 
   useEffect(() => {
-    // console.log('code: ' + code)
     axios.get('http://localhost:3001/callback', {
       params: {
         code
@@ -23,10 +21,8 @@ const Loading = ({ code, dispatchChangeAccessToken, dispatchChangeExpires, dispa
       dispatchChangeExpires(expiresIn)
       dispatchChangeRefreshToken(refreshToken)
 
-      // console.log('Response')
-      // console.log({ accessToken, refreshToken, expiresIn })
-      // Cookies.set('validated', 'true', { expires: 1 })
       setFound(true)
+      sessionStorage.setItem('code', accessToken)
     }).catch(err => {
       console.log(err)
     })

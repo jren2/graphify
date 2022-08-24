@@ -1,6 +1,7 @@
 import SpotifyPlayer from 'react-spotify-web-playback'
 
-const Player = ({ access_token, trackUri }) => {
+const Player = ({ trackUri }) => {
+  const access_token = sessionStorage.getItem('code')
 
   return (
     <>

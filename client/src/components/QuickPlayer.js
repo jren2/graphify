@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import { Container } from 'react-bootstrap'
 
-const QuickPlayer = ({ accessToken }) => {
+const QuickPlayer = () => {
+  const accessToken = sessionStorage.getItem('code')
   const [playlists, setPlaylists] = useState()
 
   useEffect(() => {
@@ -13,8 +14,6 @@ const QuickPlayer = ({ accessToken }) => {
           accessToken: accessToken
         }
       }).then(response => {
-        // console.log('USER PLAYLISTS')
-        // console.log(response.data)
         setPlaylists(response.data.items)
       }).catch(err => {
         console.log(err)
@@ -24,7 +23,7 @@ const QuickPlayer = ({ accessToken }) => {
 
   return (
     <>
-      <div className="overflow-auto border border-dark" style={{ maxHeight: "35vh" }}>
+      <div className="ml-1 overflow-auto border border-dark" style={{ maxHeight: "52vh" }}>
         {
           playlists &&
           (

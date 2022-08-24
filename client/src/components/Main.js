@@ -10,22 +10,19 @@ import Dashboard from './Dashboard'
 import { Container, Row, Col, Dropdown, Button, ButtonGroup, DropdownButton, MenuItem } from "react-bootstrap"
 
 
-const Main = ({ code, accessToken, refreshToken, expiresIn, dispatchChangeAccessToken, dispatchChangeExpires, dispatchChangeRefreshToken }) => {
+const Main = ({ code, refreshToken, expiresIn, dispatchChangeAccessToken, dispatchChangeExpires, dispatchChangeRefreshToken }) => {
+  const accessToken = sessionStorage.getItem('code')
   const [userInfo, setUserInfo] = useState({})
   const [image, setImage] = useState()
   const [topArtists, setTopArtists] = useState()
 
   useEffect(() => {
-    // console.log("Access token from Main")
-    // console.log(accessToken)
     if (accessToken) {
       axios.get('http://localhost:3001/api/getUserInfo', {
         params: {
           accessToken: accessToken
         }
       }).then(response => {
-        // console.log('USER INFO')
-        // console.log(response.data)
         setImage(response.data.images[0].url)
         setUserInfo(response.data)
       }).catch(err => {
@@ -37,8 +34,6 @@ const Main = ({ code, accessToken, refreshToken, expiresIn, dispatchChangeAccess
           accessToken: accessToken
         }
       }).then(response => {
-        // console.log('USER TOP')
-        // console.log(response.data.items)
         setTopArtists(response.data.items)
       }).catch(err => {
         console.log(err)
@@ -50,8 +45,8 @@ const Main = ({ code, accessToken, refreshToken, expiresIn, dispatchChangeAccess
     <>
       <Container fluid >
         <Row style={{ height: "93vh" }} >
-          <Col xs={2} className="border border-info">
-            <Sidebar access_token={accessToken}></Sidebar>
+          <Col xs={2} className="bg-white border border-info">
+            <Sidebar></Sidebar>
           </Col>
           <Col xs={10}>
             <Topbar userInfo={userInfo} image={image}></Topbar>
@@ -59,7 +54,7 @@ const Main = ({ code, accessToken, refreshToken, expiresIn, dispatchChangeAccess
               <Col xs={9} className="border border-success" style={{ padding: "0px" }}>
                 {topArtists &&
                   (
-                    <Dashboard image={image} access_token={accessToken} refresh_token={refreshToken} expires_in={expiresIn} user_info={userInfo} top_artists={topArtists}></Dashboard>
+                    <Dashboard image={image} refresh_token={refreshToken} expires_in={expiresIn} user_info={userInfo} top_artists={topArtists}></Dashboard>
                   )
                 }
               </Col>
@@ -70,7 +65,7 @@ const Main = ({ code, accessToken, refreshToken, expiresIn, dispatchChangeAccess
           </Col>
         </Row>
         <Row>
-          <Player access_token={accessToken}></Player>
+          <Player></Player>
         </Row>
       </Container>
     </>

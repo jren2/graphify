@@ -2,7 +2,8 @@ import { Container, Row, Col } from 'react-bootstrap'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
-const Dashboard = ({ image, user_info, access_token, refresh_token, expires_in, top_artists }) => {
+const Dashboard = ({ image, user_info, refresh_token, expires_in, top_artists }) => {
+  const access_token = sessionStorage.getItem('code')
   const [oneRecommended, setOneRecommended] = useState()
   const [twoRecommended, setTwoRecommended] = useState()
   const [threeRecommended, setThreeRecommended] = useState()
@@ -106,22 +107,22 @@ const Dashboard = ({ image, user_info, access_token, refresh_token, expires_in, 
                   return (
                     <>
                       <Col xs={4}>
-                        <Row className="m-1 px-3 py-2 bg-white shadow-sm" style={{ borderRadius: "8px" }}>
-                          <Row className="px-2">
-                            <img style={{ borderRadius: "2px", objectFit: "cover" }} className="shadow-sm mr-3" width="64px" height="64px" key={`${track.album.images[0].url}`} src={track.album.images[0].url}></img>
-                            <div className="my-auto">
-                              <a className="text-decoration-none text-dark truncate" key={`${track.album.external_urls.spotify}`} href={`${track.album.external_urls.spotify}`} target="_blank">
-                                <h5 className="mt-1 mb-1">
-                                  {track.name}
-                                </h5>
-                              </a>
-                              <a className="text-decoration-none text-muted truncate" key={`${track.artists[0].name}`} href={`${track.artists[0].external_urls.spotify}`} target="_blank">
-                                <p className="mb-2 -mt-1">
-                                  {track.artists[0].name}
-                                </p>
-                              </a>
-                            </div>
-                          </Row>
+                        <Row className="m-1 py-2 bg-white shadow-sm" style={{ borderRadius: "8px" }}>
+                          <Col xs={3}>
+                            <img style={{ borderRadius: "2px", objectFit: "cover" }} className="shadow-sm" width="64px" height="64px" key={`${track.album.images[0].url}`} src={track.album.images[0].url}></img>
+                          </Col>
+                          <Col xs={9}>
+                            <a className="text-decoration-none text-dark" key={`${track.album.external_urls.spotify}`} href={`${track.album.external_urls.spotify}`} target="_blank">
+                              <h5 className="ml-2 text-truncate mt-1 mb-1">
+                                {track.name}
+                              </h5>
+                            </a>
+                            <a className="text-decoration-none text-muted" key={`${track.artists[0].name}`} href={`${track.artists[0].external_urls.spotify}`} target="_blank">
+                              <p className="ml-2 text-truncate mb-2 -mt-1">
+                                {track.artists[0].name}
+                              </p>
+                            </a>
+                          </Col>
                         </Row>
                       </Col>
                     </>
