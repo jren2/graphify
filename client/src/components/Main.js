@@ -49,8 +49,8 @@ const Main = ({ code, refreshToken, expiresIn, dispatchChangeAccessToken, dispat
             <Sidebar></Sidebar>
           </Col>
           <Col xs={10}>
-            <Topbar userInfo={userInfo} image={image}></Topbar>
-            <Row>
+            <Topbar style={{ zIndex: "5" }} className="position-relative" userInfo={userInfo} image={image}></Topbar>
+            <Row className="position-relative">
               <Col xs={9} className="border border-success" style={{ padding: "0px" }}>
                 {topArtists &&
                   (
@@ -65,7 +65,7 @@ const Main = ({ code, refreshToken, expiresIn, dispatchChangeAccessToken, dispat
           </Col>
         </Row>
         <Row>
-          <Player></Player>
+          <Player trackUri={"spotify:album:0tGPJ0bkWOUmH7MEOR77qc"}></Player>
         </Row>
       </Container>
     </>

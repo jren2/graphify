@@ -23,12 +23,12 @@ const QuickPlayer = () => {
 
   return (
     <>
-      <div className="ml-1 overflow-auto border border-dark" style={{ maxHeight: "52vh" }}>
+      <div className="ml-2 overflow-auto" style={{ maxHeight: "59vh" }}>
         {
           playlists &&
           (
             playlists.map(playlist => (
-              <div key={`${playlist.name}`} className="my-2" style={{ fontSize: "13px" }}>{playlist.name}</div>
+              <div key={`${playlist.name}`} className="text-muted my-2 text-truncate" style={{ fontSize: "13px" }}>{playlist.name}</div>
             ))
           )
         }

@@ -91,7 +91,7 @@ const Dashboard = ({ image, user_info, refresh_token, expires_in, top_artists })
       <Container className="border border-info px-3" style={{ overflowY: "auto", overflowX: "hidden", margin: "0px", maxHeight: "86vh" }}>
         <Row>
           <div className="mx-auto text-center">
-            <h3 className="text-center mx-auto my-3">Welcome, {user_info.display_name}!</h3>
+            <h3 className="position-relative text-center mx-auto my-3">Welcome, {user_info.display_name}!</h3>
             <img src={image} className="mx-auto rounded-circle" width="150vh"></img>
           </div>
         </Row>

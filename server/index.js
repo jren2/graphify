@@ -102,6 +102,22 @@ app.get('/api/getRelatedArtists/:id', async (req, res) => {
   })
 })
 
+app.get('/api/search/:input', async (req, res) => {
+  const { params } = req
+  const { input } = params
+  const access_token = req.query.accessToken
+
+  axios.get(`https://api.spotify.com/v1/search?q=${input}&type=artist%2Ctrack%2Calbum&market=NA&limit=3`, {
+    headers: {
+      'Authorization': 'Bearer ' + access_token
+    }
+  }).then(response => {
+    res.send(response.data)
+  }).catch(error => {
+    res.send(error)
+  })
+})
+
 app.get('/api/getRecent', async (req, res) => {
   const { params } = req
   const { id } = params

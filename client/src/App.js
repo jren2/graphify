@@ -8,8 +8,6 @@ import { connect } from 'react-redux'
 import { changeCode } from './actions'
 import { client_id } from './config'
 import Loading from './components/Loading'
-import Cookies from 'js-cookie'
-
 
 export function App({ code, dispatchChangeCode }) {
   const [logged, setLogged] = useState(false)
@@ -17,7 +15,6 @@ export function App({ code, dispatchChangeCode }) {
   useEffect(() => {
     const newCode = new URLSearchParams(window.location.search).get('code')
     dispatchChangeCode(newCode)
-    console.log(sessionStorage.getItem('code'))
     setLogged(!(sessionStorage.getItem('code') === null))
   })
 
